@@ -40,7 +40,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
             </div>
-            <input type="text" class="form-control pull-right" placeholder="Data da Visitação" v-model="reserva.data" name="data-agendamento" value="" />
+            <input type="text" class="form-control pull-right" readonly="readonly" placeholder="Data da Visitação" v-model="reserva.data" name="data-agendamento" value="" />
           </div>
         </div>
         <div class="form-group">
@@ -78,7 +78,7 @@
                   </button>
               </div>
               <div class="modal-body">
-                  Deseja confirmar o agendamento de visita ao Templo do Rio de Janeiro no dia <strong>{{ reserva.data }}</strong>
+                  Deseja confirmar o agendamento de visita ao Templo do Rio de Janeiro no dia e horário selecionado?</strong>
               </div>
               <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
