@@ -21,60 +21,35 @@ var app = new Vue({
         Observacao: ''
       },
       horarios: [
-        {id: 0, hora: "09:00 - 09:15", vagas:0 },
-        {id: 1, hora: "09:15 - 09:30", vagas:5 },
-        {id: 2, hora: "09:30 - 09:45", vagas:3 },
-        {id: 3, hora: "09:45 - 10:00", vagas:4 },
-        {id: 4, hora: "10:00 - 10:15", vagas:0 },
-        {id: 5, hora: "10:15 - 10:30", vagas:5 },
-        {id: 6, hora: "10:30 - 10:45", vagas:3 },
-        {id: 7, hora: "10:45 - 11:00", vagas:4 },
-        {id: 8, hora: "11:00 - 11:15", vagas:3 },
-        {id: 9, hora: "11:15 - 11:30", vagas:2 },
-        {id: 10, hora: "11:30 - 11:45", vagas:7 },
-        {id: 11, hora: "11:45 - 12:00", vagas:2 },
-        {id: 12, hora: "12:00 - 12:15", vagas:1 },
-        {id: 13, hora: "12:15 - 12:30", vagas:2 },
-        {id: 14, hora: "12:30 - 12:45", vagas:5 },
-        {id: 15, hora: "12:45 - 13:00", vagas:2 },
-        {id: 16, hora: "13:00 - 13:15", vagas:0 },
-        {id: 17, hora: "13:15 - 13:30", vagas:0 },
-        {id: 18, hora: "13:30 - 13:45", vagas:2 },
-        {id: 19, hora: "13:45 - 14:00", vagas:2 },
-        {id: 20, hora: "14:00 - 14:15", vagas:7 },
-        {id: 21, hora: "14:15 - 14:30", vagas:5 },
-        {id: 22, hora: "14:30 - 14:45", vagas:8 },
-        {id: 23, hora: "14:45 - 15:00", vagas:8 },
-        {id: 24, hora: "15:00 - 15:15", vagas:6 },
-        {id: 25, hora: "15:15 - 15:30", vagas:2 },
-        {id: 26, hora: "15:30 - 15:45", vagas:7 },
-        {id: 27, hora: "15:45 - 16:00", vagas:4 },
-        {id: 28, hora: "16:00 - 16:15", vagas:8 },
-        {id: 29, hora: "16:15 - 16:30", vagas:1 },
-        {id: 30, hora: "16:30 - 16:45", vagas:3 },
-        {id: 31, hora: "16:45 - 17:00", vagas:8 },
-        {id: 32, hora: "17:00 - 17:15", vagas:5 },
-        {id: 33, hora: "17:15 - 17:30", vagas:6 },
-        {id: 34, hora: "17:30 - 17:45", vagas:0 },
-        {id: 35, hora: "17:45 - 18:00", vagas:5 },
-        {id: 36, hora: "18:00 - 18:15", vagas:4 },
-        {id: 37, hora: "18:15 - 18:30", vagas:0 },
-        {id: 38, hora: "18:30 - 18:45", vagas:7 },
-        {id: 39, hora: "18:45 - 19:00", vagas:7 },
-        {id: 40, hora: "19:00 - 19:15", vagas:7 },
-        {id: 41, hora: "19:15 - 19:30", vagas:3 },
-        {id: 42, hora: "19:30 - 19:45", vagas:7 },
-        {id: 43, hora: "19:45 - 20:00", vagas:2 },
-        {id: 44, hora: "20:00 - 20:15", vagas:8 },
-        {id: 45, hora: "20:15 - 20:30", vagas:8 },
-        {id: 46, hora: "20:30 - 20:45", vagas:2 },
-        {id: 47, hora: "20:45 - 21:00", vagas:3 },
-        {id: 48, hora: "21:00 - 21:15", vagas:8 }
+        {id: 0, hora: "09:00 - 09:30", vagas:1 },
+        {id: 1, hora: "09:30 - 10:00", vagas:3 },
+        {id: 2, hora: "10:00 - 10:30", vagas:8 },
+        {id: 3, hora: "10:30 - 11:00", vagas:2 },
+        {id: 4, hora: "11:00 - 11:30", vagas:6 },
+        {id: 5, hora: "11:30 - 12:00", vagas:2 },
+        {id: 6, hora: "12:00 - 12:30", vagas:2 },
+        {id: 7, hora: "12:30 - 13:00", vagas:0 },
+        {id: 8, hora: "13:00 - 13:30", vagas:8 },
+        {id: 9, hora: "13:30 - 14:00", vagas:7 },
+        {id: 10, hora: "14:00 - 14:30", vagas:8 },
+        {id: 11, hora: "14:30 - 15:00", vagas:6 },
+        {id: 12, hora: "15:00 - 15:30", vagas:5 },
+        {id: 13, hora: "15:30 - 16:00", vagas:7 },
+        {id: 14, hora: "16:00 - 16:30", vagas:1 },
+        {id: 15, hora: "16:30 - 17:00", vagas:8 },
+        {id: 16, hora: "17:00 - 17:30", vagas:3 },
+        {id: 17, hora: "17:30 - 18:00", vagas:8 },
+        {id: 18, hora: "18:00 - 18:30", vagas:2 },
+        {id: 19, hora: "18:30 - 19:00", vagas:4 },
+        {id: 20, hora: "19:00 - 19:30", vagas:5 },
+        {id: 21, hora: "19:30 - 20:00", vagas:4 },
+        {id: 22, hora: "20:00 - 20:30", vagas:4 },
+        {id: 23, hora: "20:30 - 21:00", vagas:6 }
     ],
     estaca: {},
     estacas: [
       {
-          "nome": "Estaca Arsenal Brasil",
+          "nome": "Estaca Arsenal ",
           "id": "1075276",
           "tipo": "Estaca",
           "presidente_estaca": "Marcus Elias Jeremias de Andrade",
@@ -83,7 +58,7 @@ var app = new Vue({
           "email": "mejandrade@hotmail.com"
       },
       {
-          "nome": "Estaca Macaé Brasil",
+          "nome": "Estaca Macaé ",
           "id": "616184",
           "tipo": "Estaca",
           "presidente_estaca": "Wagner Destro",
@@ -93,7 +68,7 @@ var app = new Vue({
           "email": "w_destro@yahoo.com.br"
       },
       {
-          "nome": "Estaca Niterói Brasil",
+          "nome": "Estaca Niterói ",
           "id": "508624",
           "tipo": "Estaca",
           "presidente_estaca": "Leonardo Luchetti Cortinhas",
@@ -102,7 +77,7 @@ var app = new Vue({
           "email": "leonardo_cortinhas@hotmail.com"
       },
       {
-          "nome": "Estaca Nova Iguaçu Brasil",
+          "nome": "Estaca Nova Iguaçu ",
           "id": "526606",
           "tipo": "Estaca",
           "presidente_estaca": "Luís Henrique da Silva",
@@ -111,7 +86,7 @@ var app = new Vue({
           "email": "lhenriquesud@gmail.com"
       },
       {
-          "nome": "Estaca Rio de Janeiro Brasil Andaraí",
+          "nome": "Estaca Andaraí",
           "id": "511838",
           "tipo": "Estaca",
           "presidente_estaca": "Fernando da Silva Torres",
@@ -120,7 +95,7 @@ var app = new Vue({
           "email": "rh-torres@uol.com.br"
       },
       {
-          "nome": "Estaca Rio de Janeiro Brasil Campo Grande",
+          "nome": "Estaca Campo Grande",
           "id": "526479",
           "tipo": "Estaca",
           "presidente_estaca": "Marcelo Alexandre Vascurado",
@@ -130,7 +105,7 @@ var app = new Vue({
           "email": "marcelovascurado@gmail.com"
       },
       {
-          "nome": "Estaca Rio de Janeiro Brasil Engenho de Dentro",
+          "nome": "Estaca Engenho de Dentro",
           "id": "1628577",
           "tipo": "Estaca",
           "presidente_estaca": "Antonio Alves Passos",
@@ -139,7 +114,7 @@ var app = new Vue({
           "email": "alves_passos@yahoo.com.br"
       },
       {
-          "nome": "Estaca Rio de Janeiro Brasil Itaguaí",
+          "nome": "Estaca Itaguaí",
           "id": "467111",
           "tipo": "Estaca",
           "presidente_estaca": "Joilton R. Melo",
@@ -148,7 +123,7 @@ var app = new Vue({
           "email": "joiltonrizomelo@gmail.com"
       },
       {
-          "nome": "Estaca Rio de Janeiro Brasil Jacarepagua",
+          "nome": "Estaca Jacarepagua",
           "id": "527726",
           "tipo": "Estaca",
           "presidente_estaca": "Ramiro de Queiroz Martins Silva",
@@ -158,7 +133,7 @@ var app = new Vue({
           "email": "ramiroqms@gmail.com"
       },
       {
-          "nome": "Estaca Rio de Janeiro Brasil Madureira",
+          "nome": "Estaca Madureira",
           "id": "515884",
           "tipo": "Estaca",
           "presidente_estaca": "Marco Antonio Nogueira de Campos Junior",
@@ -168,7 +143,7 @@ var app = new Vue({
           "email": "marcocamposjr@hotmail.com"
       },
       {
-          "nome": "Estaca Rio de Janeiro Brasil",
+          "nome": "Estaca Rio de Janeiro",
           "id": "506494",
           "tipo": "Estaca",
           "presidente_estaca": "Flávio Valladão Ferreira",
