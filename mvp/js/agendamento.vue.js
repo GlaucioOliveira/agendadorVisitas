@@ -21,7 +21,7 @@ var app = new Vue({
         Observacao: ''
       },
       horarios: [
-        {id: 0, hora: "09:00 - 09:15", vagas:3 },
+        {id: 0, hora: "09:00 - 09:15", vagas:0 },
         {id: 1, hora: "09:15 - 09:30", vagas:5 },
         {id: 2, hora: "09:30 - 09:45", vagas:3 },
         {id: 3, hora: "09:45 - 10:00", vagas:4 },
