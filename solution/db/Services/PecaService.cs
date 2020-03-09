@@ -9,7 +9,7 @@ using MongoDB.Bson;
 
 namespace db.Services
 {
-    public class PecaService : BaseService<Peca>
+    public class PecaService : BaseService<Peca>, IDatabaseService
     {
         public PecaService(IDatabaseSettings settings) : base(settings)
         {

@@ -8,9 +8,9 @@ using db.Interfaces;
 
 namespace db.Services
 {
-    public class MarcaService : BaseService<Marca>
+    public class AgendamentoService : BaseService<Agendamento>, IDatabaseService
     {
-        public MarcaService(IDatabaseSettings settings) : base(settings)
+        public AgendamentoService(IDatabaseSettings settings) : base(settings)
         {
         }
     }

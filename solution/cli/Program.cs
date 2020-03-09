@@ -13,121 +13,65 @@ namespace cli
     {
         #region [Variáveis Globais]
         static DatabaseSettings dbConnection;
-        static PecaService pecadb;
-        static MarcaService marcadb;
-        static ModeloService modelodb;
+        static AgendamentoService agendamentodb;
+        static ReservaService reservadb;
+        static HorarioService horariodb;
+
         #endregion
 
         static void Main(string[] args)
         {
-            carregaServices();
             Console.WriteLine("Console Util - CLI");
 
-            //processa as marcas, modelos e anos do JSON na pasta DUMP/
-            var listaMarcas = pegaJSONProcessado();
+            carregaServices();
 
-            //apaga todas as marcas e modelos cadastrados.
-            marcadb.RemoveAll();
-            modelodb.RemoveAll();
+            apagarDados();
 
-            foreach (var item in listaMarcas)
-            {
-                Console.WriteLine($"Importando: {item.Key}");
-
-                var marca = new Marca()
-                {
-                    Nome = item.Key.Trim()
-                };
-
-                foreach (var modelo in item.Value)
-                {
-                    Modelo novoModelo = new Modelo()
-                    {
-                        Nome = modelo.Modelo.Trim(),
-                        Ano = modelo.Ano,
-                        MarcaId = marca.Id,
-                        MarcaNome = marca.Nome
-                    };
-                     //cadastra no banco um novo modelo.
-                    modelodb.Create(novoModelo);
-
-                    marca.Modelo.Add(new Modelo()
-                    {
-                        Id = novoModelo.Id,
-                        Nome = modelo.Modelo.Trim(),
-                        Ano = modelo.Ano,
-                        MarcaNome = marca.Nome
-                    });
-                }
-
-                //cadastro de marcas;
-                marcadb.Create(marca);
-
-                foreach (var modelo in marca.Modelo)
-                {
-                    //var modeloParaEditar = modelodb.Get(modelo.Id);
-                    modelo.MarcaId = marca.Id;
-                    modelo.MarcaNome = marca.Nome;
-
-                    //modelodb.Update(modeloParaEditar.Id, modeloParaEditar);
-                }
-
-                marcadb.Update(marca.Id, marca);
-            }
-
-            Console.WriteLine("\n> Pressione uma Tecla para Encerrar... ");
-            Console.ReadKey();
+            geraBlocosDeTempo();
         }
 
-        private static Dictionary<string, List<Automovel>> pegaJSONProcessado()
+        private static void apagarDados()
         {
-            Dictionary<string, List<Automovel>> listaMarcas = new Dictionary<string, List<Automovel>>();
-
-            string jsonContent = File.ReadAllText($@"{AppDomain.CurrentDomain.BaseDirectory}\..\..\..\dump\moto.json");
-            var jsonBody = JsonDocument.Parse(jsonContent).RootElement;
-
-            foreach (var item in jsonBody.EnumerateArray())
-            {
-                var marca = item.GetProperty("marca").GetString();
-                var modelo = item.GetProperty("modelo").GetString();
-                var cod_fipe = item.GetProperty("cod_fipe").GetString();
-
-                if (!listaMarcas.ContainsKey(marca))
-                {
-                    listaMarcas.Add(marca, new List<Automovel>());
-                }
-                else
-                {
-                    Automovel moto = new Automovel()
-                    {
-                        Marca = marca,
-                        Modelo = modelo
-                    };
-
-                    moto.Ano = pegaMotoAno(cod_fipe);
-
-                    listaMarcas[marca].Add(moto);
-                }
-            }
-
-            return listaMarcas;
+            agendamentodb.RemoveAll();
+            reservadb.RemoveAll();
+            horariodb.RemoveAll();
         }
 
-        private static List<string> pegaMotoAno(string cod_fipe)
+        private static void geraBlocosDeTempo()
         {
-            List<string> listaAnoModelo = new List<string>();
+            TimeSpan tempo = new TimeSpan(9, 0, 0);
+            TimeSpan tempoAnterior = new TimeSpan(9, 0, 0);
+            var dataInicial = new DateTime(2020, 04, 16);
 
-            string jsonContent = File.ReadAllText($@"{AppDomain.CurrentDomain.BaseDirectory}\..\..\..\dump\moto_modelo_ano\{cod_fipe}.json");
-            var jsonBody = JsonDocument.Parse(jsonContent).RootElement;
-
-            foreach (var item in jsonBody.EnumerateArray())
+            for (var x = 0; x < 17; x++)
             {
-                var tipo = item.GetProperty("tipo").GetString().Replace("gasolina", "").Replace("alcool", "").Trim();
+                Agendamento agendamento = new Agendamento();
+                agendamento.Horarios = new List<Horario>();
+                agendamento.DataCriacao = DateTime.Now;
+                agendamento.DataAlteracao = agendamento.DataCriacao;
 
-                if (!listaAnoModelo.Contains(tipo) && !tipo.ToLower().Equals("zero km")) listaAnoModelo.Add(tipo);
+                agendamento.Data = dataInicial.AddDays(x).ToShortDateString();
+
+                for (int i = 0; i <= 23; i++)
+                {
+                    Horario horario = new Horario();
+                    tempo = tempo.Add(new TimeSpan(0, 30, 0));
+
+                    horario.Data = agendamento.Data;
+                    horario.Hora = $"{tempoAnterior.Hours.ToString("00")}:{tempoAnterior.Minutes.ToString("00")} - {tempo.Hours.ToString("00")}:{tempo.Minutes.ToString("00")}";
+                    horario.Vagas = 2;
+
+                    Console.WriteLine(horario.Hora);
+
+                    tempoAnterior = tempo;
+
+                    horariodb.Create(horario);
+                    agendamento.Horarios.Add(horario);
+
+                }
+
+                agendamentodb.Create(agendamento);
             }
-
-            return listaAnoModelo;
         }
 
         /// <summary>
@@ -135,31 +79,30 @@ namespace cli
         /// </summary>
         static void carregaServices()
         {
-            //mongodb://localhost:27017
-            string ConnectionString = "mongodb://127.0.0.1:1234/?readPreference=primary&appname=MongoDB%20Compass&ssl=false";
+            string ConnectionString_Desenvolvimento = "mongodb://127.0.0.1:27017/?readPreference=primary&ssl=false";
 
-            dbConnection = new DatabaseSettings()
+            agendamentodb = new AgendamentoService(new DatabaseSettings()
             {
-                DatabaseName = "pecacompativel",
-                ConnectionString = ConnectionString,
-                Peca = "pecacompativel"
-            };
-            
-            pecadb = new PecaService(dbConnection);
-
-            marcadb = new MarcaService(new DatabaseSettings()
-            {
-                DatabaseName = "pecacompativel",
-                ConnectionString = ConnectionString,
-                Marca = "marca"
+                DatabaseName = "agendamento",
+                ConnectionString = ConnectionString_Desenvolvimento,
+                Agendamento = "agendamento"
             });
 
-            modelodb = new ModeloService(new DatabaseSettings()
+            reservadb = new ReservaService(new DatabaseSettings()
             {
-                DatabaseName = "pecacompativel",
-                ConnectionString = ConnectionString,
-                Modelo = "modelo"
+                DatabaseName = "agendamento",
+                ConnectionString = ConnectionString_Desenvolvimento,
+                Reserva = "reserva"
             });
+
+            horariodb = new HorarioService(new DatabaseSettings()
+            {
+                DatabaseName = "agendamento",
+                ConnectionString = ConnectionString_Desenvolvimento,
+                Horario = "horario"
+            });
+
+
         }
     }
 }

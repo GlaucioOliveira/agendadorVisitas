@@ -8,9 +8,9 @@ using db.Interfaces;
 
 namespace db.Services
 {
-    public class ModeloService : BaseService<Modelo>
+    public class HorarioService : BaseService<Horario>, IDatabaseService
     {
-        public ModeloService(IDatabaseSettings settings) : base(settings)
+        public HorarioService(IDatabaseSettings settings) : base(settings)
         {
         }
     }

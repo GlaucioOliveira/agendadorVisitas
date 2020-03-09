@@ -22,7 +22,20 @@ var app = new Vue({
   methods: {
     enviarAgendamento: function () {
       this.enviado = true;
+      this.reserva.data = document.getElementById("data-agendamento").innerText;
+
+      axios.post("https://localhost:44300/reserva", this.reserva)
+      .then(response => {
+          this.redirecionando = true;
+          app.atualizaListaPecasAlternativas();
+          this.limpaFormulario();
+      })
+      .catch(e => {
+          //this.errors.push(e)
+      });
+
       $('#modalPromptReserva').modal('hide');
+      
     },
 
     selecionarHorario: function (horario) {

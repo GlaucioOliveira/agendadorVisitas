@@ -1,20 +1,13 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
 using db.Interfaces;
 using db.Models;
-using db.Services;
 
 namespace api
 {
@@ -37,12 +30,24 @@ namespace api
             services.AddSingleton<IDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
-            services.AddSingleton<PecaService>();
-            services.AddSingleton<MarcaService>();
-            services.AddSingleton<ModeloService>();
+            ConfigureDatabaseServices(services);
 
             services.AddCors();
             services.AddControllers();
+        }
+
+        private void ConfigureDatabaseServices(IServiceCollection services)
+        {
+            var IDatabaseServiceType = typeof(IDatabaseService);
+
+            var DatabaseServicesTypeList = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(p => IDatabaseServiceType.IsAssignableFrom(p) && p != IDatabaseServiceType);
+
+            foreach (var DatabaseServiceType in DatabaseServicesTypeList)
+            {
+                services.AddSingleton(DatabaseServiceType);
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

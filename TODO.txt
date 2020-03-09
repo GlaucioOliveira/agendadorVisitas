@@ -1,0 +1,3 @@
+- listar os horários apartir do mongodb;
+- passar o id da hora ao fazer reserva;
+- ao trocar a data, ir na API e pegar as datas disponíveis;
