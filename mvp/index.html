@@ -1,59 +1,164 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/main.css" crossorigin="anonymous">
-    <title>Peça Compativel</title>
-  </head>
-  <body>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+    crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  <link rel="stylesheet" href="css/main.css" crossorigin="anonymous">
+  <title>Templo do Rio de Janeiro - Visitação Pública</title>
+</head>
+
+<body>
+
+  <div id="app" v-cloak>
+    <!-- Vue.JS App -->
+
     <div class="sticky-top">
-    <nav class="navbar navbar-dark bg-dark">
-      <a class="navbar-brand" href="index.html"><i class="fa fa-wrench"></i> Peça Compatível</a>        
-      <form class="form-inline">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">Buscar</span>
-          </div>
-          <input type="text" class="form-control" placeholder="Moto/Modelo/Peça" aria-label="Moto/Modelo/Peça" aria-describedby="button-addon1">
-        </div>
-      </form>       
-    </nav>
-  </div>
-<br/>
-     <div class="container">       
-       <h5>Marcas e Modelos populares:</h5>
- 
-       <div id="app" v-cloak> <!-- Vue.JS App -->
+      <nav class="navbar navbar-dark bg-info">
+        <a class="navbar-brand" href="#"><i class="fa fa-place-of-worship"></i> TRJ</a>
+      </nav>
 
-        <div class="card-deck p-3" v-for="deck in decks">
-          <div class="card" v-for="marca in marcasPopulares.slice(deck.start, deck.end)">
-            <div class="card-header text-white bg-secondary">
-              {{ marca.nome }}
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Início</a></li>
+          <li class="breadcrumb-item active">Agendamento</li>
+        </ol>
+      </nav>
+    </div>
+
+    <div class="container">
+      <div class="text-center">
+        <img src="img/templorj.jpg_" class="img-fluid rounded" alt="Templo do Rio de Janeiro">
+      </div>
+      <br />
+      <form>
+        <div class="form-group">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
             </div>
-            <ul v-for="modelo in marca.modelo.slice(0,5)" class="list-group list-group-flush">
-              <li class="list-group-item"><a :href="'modelo.html?id=' + modelo.id">{{ modelo.nome.substring(0,30) }}</a> <span class="badge badge-secondary float-right">15 Peças</span></li>
-            </ul>
-            <div class="card-footer">
-              <small class="text-muted"><a :href="'marca.html?id=' + marca.id">Ver Todos os Modelos da {{ marca.nome }}</a></small>
-            </div>            
-          </div>          
+            <input type="text" class="form-control pull-right" readonly="readonly" placeholder="Data da Visitação"
+              v-model.lazy="reserva.data" name="data-agendamento" id="data-agendamento" value="" />
+          </div>
         </div>
-       </div>
+
+        <!-- <div class="form-group" v-if="estaca.presidente_estaca">
+          <div class="list-group" v-for="horario in horarios">
+            <a href="#" v-if="horario.vagas" class="list-group-item d-flex justify-content-between align-items-center list-group-item-action">{{horario.hora}} <span class="badge badge-info badge-pill">{{horario.vagas}} Vaga(s)</span></a>
+            <a href="#" data-toggle="list" v-if="!horario.vagas" class="list-group-item d-flex justify-content-between align-items-center list-group-item-action disabled">{{horario.hora}} <span class="badge badge-secondary badge-pill">{{horario.vagas}} Vaga(s)</span></a>
+          </div>
+        </div> -->
+        <div>
+          Horários Selecionados: <strong>{{ quantidadeSelecionada }}</strong>
+          {{ reserva }}
+        </div>
+        <br>
+        <div class="row row-cols-1 row-cols-md-4">
+          <div class="col mb-2" v-for="horario in horarios">
+            <div class="card">
+              <div v-if="!horario.selecionado" v-on:click="selecionarHorario(horario)"
+                class="list-group-item d-flex justify-content-between align-items-center list-group-item-action">
+                {{horario.hora}} <span class="badge badge-info badge-pill">{{horario.vagas}} Vaga(s)</span></div>
+              <div v-if="horario.selecionado" v-on:click="selecionarHorario(horario)"
+                class="list-group-item d-flex justify-content-between align-items-center list-group-item-action active">
+                {{horario.hora}} <span class="badge badge-info badge-pill">{{horario.vagas}} Vaga(s)</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Estaca</label>
+          <select class="form-control" id="exampleFormControlSelect1" v-model="reserva.estaca">
+            <option selected></option>
+            <option v-for="estaca in estacas" :value="estaca">{{estaca.nome}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Contato</label>
+          <input type="text" class="form-control" v-model="reserva.contato" placeholder="Nome da pessoa para contato" />
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Telefone</label>
+          <input type="tel" class="form-control" v-model="reserva.telefone" placeholder="Telefone para contato" />
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Número da Unidade</label>
+          <input type="text" class="form-control" v-model="reserva.unidade" placeholder="Número da Unidade" />
+        </div>
+      </form>
+      <div>
+        <button type="button" class="btn btn-info" v-if="!enviado" data-toggle="modal"
+          :disabled="quantidadeSelecionada == 0" data-target="#modalPromptReserva">
+          <i class="fa fa-check" v-if="enviado && redirecionando"></i> Reservar
+        </button>
+        <button class="btn btn-info" type="button" disabled v-if="enviado">
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Salvando...
+        </button>
+      </div>
+    </div>
+    <br />
+    
+    <!-- Modal Reserva -->
+    <div class="modal fade" id="modalPromptReserva" tabindex="-1" role="dialog" aria-labelledby="modalPromptReserva"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Confirmar Reserva</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Deseja confirmar o agendamento de visita ao Templo do Rio de Janeiro nos horários abaixo?</strong>
+            <br>
+            <ul>
+              <li v-for="horario in reserva.horarios">{{ horario.hora }}</li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-info" v-on:click="enviarAgendamento">Confirmar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal Reserva -->
+
   </div>
-<br/>
 
-<a id="back-to-top" href="#" class="btn btn-light btn-lg back-to-top" role="button"><i class="fas fa-chevron-up"></i></a>
+  <a id="back-to-top" href="#" class="btn btn-light btn-lg back-to-top" role="button"><i
+      class="fas fa-chevron-up"></i></a>
 
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/index.vue.js"></script>
-  </body>
+
+  <footer class="border-top footer text-muted text-center">
+    <br />
+    <div class="container">
+      &copy; 2020 - Templo do Rio de Janeiro
+    </div>
+  </footer>
+
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/agendamento.vue.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <script src="js/agendamento.calendar.js"></script>
+</body>
+
 </html>

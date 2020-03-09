@@ -7,3 +7,6 @@
 
 [v-cloak] > * { display:none }
 [v-cloak]::before { content: "Carregando..." }
+
+/* força o layout de um item de lista ativo.*/
+.list-group-item.active { background-color: #17a2b8!important; border-color: #17a2b8!important; }

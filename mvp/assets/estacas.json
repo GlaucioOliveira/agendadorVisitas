@@ -1,0 +1,104 @@
+[
+      {
+          "nome": "Estaca Arsenal ",
+          "id": "1075276",
+          "tipo": "Estaca",
+          "presidente_estaca": "Marcus Elias Jeremias de Andrade",
+          "telefone_residencial": "55 21-9-8813-9639",
+          "telefone_trabalho": "55 21-9-8813-9639",
+          "email": "mejandrade@hotmail.com"
+      },
+      {
+          "nome": "Estaca Macaé ",
+          "id": "616184",
+          "tipo": "Estaca",
+          "presidente_estaca": "Wagner Destro",
+          "telefone_residencial": "55 22-2773-3176",
+          "celular": "55 22-99824-7113",
+          "telefone_trabalho": "55 22-2753-5156",
+          "email": "w_destro@yahoo.com.br"
+      },
+      {
+          "nome": "Estaca Niterói ",
+          "id": "508624",
+          "tipo": "Estaca",
+          "presidente_estaca": "Leonardo Luchetti Cortinhas",
+          "telefone_residencial": "55 21-9-8789-2702",
+          "celular": "55 21-9-8789-2702",
+          "email": "leonardo_cortinhas@hotmail.com"
+      },
+      {
+          "nome": "Estaca Nova Iguaçu ",
+          "id": "526606",
+          "tipo": "Estaca",
+          "presidente_estaca": "Luís Henrique da Silva",
+          "telefone_residencial": "55 21-3540-2526",
+          "celular": "55 21-96954-3936",
+          "email": "lhenriquesud@gmail.com"
+      },
+      {
+          "nome": "Estaca Andaraí",
+          "id": "511838",
+          "tipo": "Estaca",
+          "presidente_estaca": "Fernando da Silva Torres",
+          "telefone_residencial": "55 21-2051-3821",
+          "celular": "55 21-99447-5373",
+          "email": "rh-torres@uol.com.br"
+      },
+      {
+          "nome": "Estaca Campo Grande",
+          "id": "526479",
+          "tipo": "Estaca",
+          "presidente_estaca": "Marcelo Alexandre Vascurado",
+          "telefone_residencial": "55 21-2146-8957",
+          "celular": "55 21-97474-7586",
+          "telefone_trabalho": "55 21-3292-5895",
+          "email": "marcelovascurado@gmail.com"
+      },
+      {
+          "nome": "Estaca Engenho de Dentro",
+          "id": "1628577",
+          "tipo": "Estaca",
+          "presidente_estaca": "Antonio Alves Passos",
+          "telefone_residencial": "55 21-3276-6619",
+          "celular": "55 21-9-8182-7743",
+          "email": "alves_passos@yahoo.com.br"
+      },
+      {
+          "nome": "Estaca Itaguaí",
+          "id": "467111",
+          "tipo": "Estaca",
+          "presidente_estaca": "Joilton R. Melo",
+          "telefone_residencial": "55 21-3782-2258",
+          "celular": "55 21-98453-0266",
+          "email": "joiltonrizomelo@gmail.com"
+      },
+      {
+          "nome": "Estaca Jacarepagua",
+          "id": "527726",
+          "tipo": "Estaca",
+          "presidente_estaca": "Ramiro de Queiroz Martins Silva",
+          "telefone_residencial": "55 21-3417-3327",
+          "celular": "55 21-98164-5454",
+          "telefone_trabalho": "55 21-96673-0476",
+          "email": "ramiroqms@gmail.com"
+      },
+      {
+          "nome": "Estaca Madureira",
+          "id": "515884",
+          "tipo": "Estaca",
+          "presidente_estaca": "Marco Antonio Nogueira de Campos Junior",
+          "telefone_residencial": "55 21-3177-0956",
+          "celular": "55 21-9-6807-2847",
+          "telefone_trabalho": "55 21-9-7242-4821",
+          "email": "marcocamposjr@hotmail.com"
+      },
+      {
+          "nome": "Estaca Rio de Janeiro",
+          "id": "506494",
+          "tipo": "Estaca",
+          "presidente_estaca": "Flávio Valladão Ferreira",
+          "celular": "55 21-9-9177-7309",
+          "email": "fvalladaof@gmail.com"
+      }
+  ]
