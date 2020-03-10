@@ -13,5 +13,11 @@ namespace db.Services
         public AgendamentoService(IDatabaseSettings settings) : base(settings)
         {
         }
+
+        public Agendamento GetByDate(string data)
+        {
+            data = data.Replace("-", "/");
+            return _collection.Find(x => x.Data == data).FirstOrDefault();
+        }
     }
 }

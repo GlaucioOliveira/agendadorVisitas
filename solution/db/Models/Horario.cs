@@ -17,5 +17,8 @@ namespace db.Models
         public string Hora { get; set; }
         public int Vagas { get; set; }
         public List<Reserva> Reservas { get; set; }
+
+        [BsonIgnore]
+        public bool selecionado { get; set; }
     }
 }

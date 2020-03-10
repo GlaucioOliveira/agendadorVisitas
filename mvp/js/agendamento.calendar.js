@@ -42,9 +42,7 @@ $(function() {
         "Dezembro"
     ]
       }
-    }, function(start, end, label) {
-      //var years = moment().diff(start, 'years');
-      //alert("You are " + years + " years old!");
-      //talves verificar se o dia é valido...            
+    }, function(start) {
+      if(app && app.listaHorariosDisponveis) app.listaHorariosDisponveis(start.format('DD-MM-YYYY')); 
     });
   });

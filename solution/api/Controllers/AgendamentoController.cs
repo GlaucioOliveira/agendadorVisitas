@@ -27,17 +27,20 @@ namespace api.Controllers
         public ActionResult<List<Agendamento>> Get() =>
          _dbService.Get();
 
-        [HttpGet("{id:length(24)}", Name = "GetAgendamento")]
-        public ActionResult<Agendamento> Get(string id)
+        [HttpGet("{date:length(10)}", Name = "GetAgendamento")]
+        public ActionResult<Agendamento> Get(string date)
         {
-            var peca = _dbService.Get(id);
+            var agendamento = _dbService.GetByDate(date);
 
-            if (peca == null)
+            //apaga os horários já preenchidos..
+            agendamento.Horarios.RemoveAll(x => x.Vagas == 0);
+
+            if (agendamento == null)
             {
                 return NotFound();
             }
 
-            return peca;
+            return agendamento;
         }
 
         //[HttpGet("ListarAgendamentosAlternativas/{modelo}")]

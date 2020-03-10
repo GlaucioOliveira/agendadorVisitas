@@ -38,7 +38,7 @@ namespace api.Controllers
         public ActionResult<Reserva> Create(Reserva reserva)
         {
             reserva.DataCriacao = DateTime.Now;
-            _dbService.Create(reserva);
+            _dbService.CreateAndUpdateCounter(reserva);
             return CreatedAtRoute("GetReserva", new { id = reserva.Id.ToString() }, reserva);
         }
 

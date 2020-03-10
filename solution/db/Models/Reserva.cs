@@ -16,9 +16,9 @@ namespace db.Models
         public string Contato { get; set; }
         public string Telefone { get; set; }
         public string Data { get; set; }
-        public int Unidade { get; set; }
+        public string Unidade { get; set; }
 
-        public List<string> HorarioId { get; set; }
+        public List<Horario> Horarios { get; set; }
         public DateTime DataCriacao { get; set; }
     }
 }

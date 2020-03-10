@@ -58,7 +58,7 @@ namespace api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UsePathBase("/dev");
+            //app.UsePathBase("/dev");
 
             //app.UseCors( b =>
             //{
