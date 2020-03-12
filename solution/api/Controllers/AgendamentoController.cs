@@ -33,7 +33,7 @@ namespace api.Controllers
             var agendamento = _dbService.GetByDate(date);
 
             //apaga os horários já preenchidos..
-            agendamento.Horarios.RemoveAll(x => x.Vagas == 0);
+            //agendamento.Horarios.RemoveAll(x => x.Vagas == 0);
 
             if (agendamento == null)
             {

@@ -19,8 +19,24 @@
     <!-- Vue.JS App -->
 
     <div class="sticky-top">
-      <nav class="navbar navbar-dark bg-info">
-        <a class="navbar-brand" href="#"><i class="fa fa-place-of-worship"></i> TRJ</a>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-info">
+        <a class="navbar-brand" href="#"><i class="fa fa-place-of-worship"></i> Templo do Rio de Janeiro</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Agendamento <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="reservas.html">Reservas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="disponiveis.html">Horários Disponíveis</a>
+            </li>
+          </ul>
+        </div>
       </nav>
 
       <nav aria-label="breadcrumb">
@@ -32,8 +48,9 @@
     </div>
 
     <div class="container">
-      <div class="text-center">
-        <img src="img/templorj.jpg_" class="img-fluid rounded" alt="Templo do Rio de Janeiro">
+      <div class="text-center"> 
+        <!-- img-fluid roundedbootstr -->
+        <img src="img/templo3.jpg" class="img-fluid rounded" width="100%" alt="Templo do Rio de Janeiro de A Igreja de Jesus Cristo dos Santos dos Últimos Dias">
       </div>
       <br />
       <form>
@@ -43,17 +60,16 @@
               <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
             </div>
             <input type="text" class="form-control pull-right" readonly="readonly" placeholder="Data da Visitação"
-              v-model.lazy="reserva.data" name="data-agendamento" id="data-agendamento" value="" />
+              v-model.lazy="reserva.data" name="data-agendamento" id="data-agendamento" />
           </div>
         </div>
 
-        <!-- <div class="form-group" v-if="estaca.presidente_estaca">
-          <div class="list-group" v-for="horario in horarios">
-            <a href="#" v-if="horario.vagas" class="list-group-item d-flex justify-content-between align-items-center list-group-item-action">{{horario.hora}} <span class="badge badge-info badge-pill">{{horario.vagas}} Vaga(s)</span></a>
-            <a href="#" data-toggle="list" v-if="!horario.vagas" class="list-group-item d-flex justify-content-between align-items-center list-group-item-action disabled">{{horario.hora}} <span class="badge badge-secondary badge-pill">{{horario.vagas}} Vaga(s)</span></a>
-          </div>
-        </div> -->
         <div v-if="horarios.length">
+
+          <div class="alert alert-danger" v-if="quantidadeSelecionada > limiteSelecaoPorUnidade" role="alert">
+            Só é possível reservar por unidade no máximo {{ limiteSelecaoPorUnidade }} horários.
+          </div>
+
           Horários Selecionados: <strong>{{ quantidadeSelecionada }}</strong>
           <!-- {{ reserva }} -->
         </div>
@@ -61,39 +77,43 @@
         <div class="row row-cols-1 row-cols-md-4">
           <div class="col mb-2" v-for="horario in horarios">
             <div class="card">
-              <div v-if="!horario.selecionado" v-on:click="selecionarHorario(horario)"
+              <div v-if="!horario.selecionado && !horario.indisponivel" v-on:click="selecionarHorario(horario)"
                 class="list-group-item d-flex justify-content-between align-items-center list-group-item-action">
                 {{horario.hora}} <span class="badge badge-info badge-pill">{{horario.vagas}} Vaga(s)</span></div>
-              <div v-if="horario.selecionado" v-on:click="selecionarHorario(horario)"
+              <div v-if="horario.selecionado && !horario.indisponivel" v-on:click="selecionarHorario(horario)"
                 class="list-group-item d-flex justify-content-between align-items-center list-group-item-action active">
                 {{horario.hora}} <span class="badge badge-info badge-pill">{{horario.vagas}} Vaga(s)</span></div>
+
+                <div v-if="horario.indisponivel"
+                class="list-group-item d-flex justify-content-between align-items-center list-group-item-action disabled">
+                {{horario.hora}} <span class="badge badge-secondary badge-pill">Sem Vaga</span></div>
             </div>
           </div>
         </div>
 
         <div class="form-group">
           <label for="exampleFormControlSelect1">Estaca</label>
-          <select class="form-control" id="exampleFormControlSelect1">
+          <select class="form-control" id="exampleFormControlSelect1" v-model="reserva.nomeUnidade">
             <option selected></option>
-            <option v-for="estaca in estacas" :value="estaca">{{estaca.nome}}</option>
+            <option v-for="estaca in estacas" :value="estaca.nome">{{estaca.nome}}</option>
           </select>
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Contato</label>
-          <input type="text" class="form-control" v-model="reserva.contato" placeholder="Nome da pessoa para contato" />
+          <input type="text" class="form-control" v-model="reserva.contato" placeholder="Nome da pessoa para Contato" />
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Telefone</label>
-          <input type="text" class="form-control" v-model="reserva.telefone" placeholder="Telefone para contato" />
+          <input type="text" class="form-control" v-model="reserva.telefone" placeholder="Telefone para Contato" />
         </div>
         <div class="form-group">
-          <label for="exampleFormControlSelect1">Número da Unidade</label>
-          <input type="text" class="form-control" v-model="reserva.unidade" placeholder="Número da Unidade" />
+          <label for="exampleFormControlSelect1">Número da Estaca</label>
+          <input type="text" class="form-control" v-model="reserva.unidade" placeholder="" />
         </div>
       </form>
       <div>
         <button type="button" class="btn btn-info" v-if="!enviado" data-toggle="modal"
-          :disabled="quantidadeSelecionada == 0" data-target="#modalPromptReserva">
+          :disabled="(quantidadeSelecionada == 0 || quantidadeSelecionada > limiteSelecaoPorUnidade)" data-target="#modalPromptReserva">
           <i class="fa fa-check" v-if="enviado && redirecionando"></i> Reservar
         </button>
         <button class="btn btn-info" type="button" disabled v-if="enviado">

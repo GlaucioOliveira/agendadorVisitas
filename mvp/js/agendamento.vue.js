@@ -7,7 +7,8 @@ var app = new Vue({
       estaca: {},
       estacas: {},
       reserva: { data: '' },
-      quantidadeSelecionada: 0
+      quantidadeSelecionada: 0,
+      limiteSelecaoPorUnidade: 3,
     }
   },
 
@@ -20,11 +21,10 @@ var app = new Vue({
     enviarAgendamento: function () {
       this.enviado = true;
       
-      axios.post("https://localhost:44300/reserva/", this.reserva)
+      axios.post(apiURL() + "reserva/", this.reserva)
       .then(response => {
         this.enviado = false;
-          app.listaHorariosDisponveis();
-          this.reserva = { data: this.reserva.data };
+          location.href="/reservas.html";
       })
       .catch(e => {
           //this.errors.push(e)
@@ -55,8 +55,9 @@ var app = new Vue({
 
     listaHorariosDisponveis: function(data) {
       this.reserva.data = data;
-
-      axios.get("https://localhost:44300/agendamento/" + data)
+      this.quantidadeSelecionada = 0;
+      
+      axios.get(apiURL() + "agendamento/" + data)
       .then(response => (this.horarios = response.data.horarios));
 
     }

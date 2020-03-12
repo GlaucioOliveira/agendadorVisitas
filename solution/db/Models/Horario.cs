@@ -20,5 +20,12 @@ namespace db.Models
 
         [BsonIgnore]
         public bool selecionado { get; set; }
+        public bool indisponivel
+        {
+            get
+            {
+                return Vagas == 0;
+            }
+        }
     }
 }

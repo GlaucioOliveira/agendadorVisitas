@@ -1,14 +1,10 @@
 $(function() {
     $('input[name="data-agendamento"]').daterangepicker({
       singleDatePicker: true,
-      showDropdowns: true,
+      showDropdowns: false,
       minYear: 2020,
-      // isCustomDate: function (date){
-      //   if(date.day() === 6)
-      //   {
-      //     return "text-light";
-      //   }
-      // },
+      //startDate: '17-04-2020',
+      opens: 'right',
       isInvalidDate: function(date)
       {
         if(date.day() === 0 || date.isBetween('2020-04-16', '2020-05-03') == false) 

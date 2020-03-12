@@ -22,12 +22,12 @@ namespace db.Services
 
             if (string.IsNullOrWhiteSpace(newObject.Id)) return null;
 
-            atualizaContadorVagasAgendamento(newObject);
+            atualizaContadorVagasAgendamento(newObject,0, 1);
 
             return newObject;
         }
 
-        private void atualizaContadorVagasAgendamento(Reserva reserva)
+        private void atualizaContadorVagasAgendamento(Reserva reserva, int adicionar , int remover )
         {
             AgendamentoService agendamentosvc = new AgendamentoService(_settings);
             var agendamentoToUpdate = agendamentosvc.GetByDate(reserva.Data);
@@ -35,11 +35,30 @@ namespace db.Services
             foreach (var horaSelecionada in reserva.Horarios)
             {
                 var horarioToUpdate = agendamentoToUpdate.Horarios.Where(x => x.Hora == horaSelecionada.Hora).FirstOrDefault();
-                horarioToUpdate.Vagas -= 1;
+
+                if (remover > 0)
+                {
+                    horarioToUpdate.Vagas -= remover;
+                }
+                else
+                {
+                    horarioToUpdate.Vagas += adicionar;
+                }
             }
 
             agendamentosvc.Update(agendamentoToUpdate.Id, agendamentoToUpdate);
         }
+
+        public void RemoveAndUpdateCounter(string id)
+        {
+            atualizaContadorVagasAgendamento(this.Get(id), 1, 0);
+            Remove(id);
+        }
+        public List<Reserva> GetOrdered()
+        {
+            return Get().OrderBy(x => x.Data).ToList();
+        }
+
 
     }
 }

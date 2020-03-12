@@ -16,7 +16,6 @@ namespace cli
         static AgendamentoService agendamentodb;
         static ReservaService reservadb;
         static HorarioService horariodb;
-
         #endregion
 
         static void Main(string[] args)

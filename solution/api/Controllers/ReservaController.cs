@@ -18,9 +18,15 @@ namespace api.Controllers
             _dbService = ReservaService;
         }
 
+        //[HttpGet]
+        //public ActionResult<List<Reserva>> Get() =>
+        // _dbService.Get();
+
         [HttpGet]
-        public ActionResult<List<Reserva>> Get() =>
-         _dbService.Get();
+        public ActionResult<List<Reserva>> Get()
+        {
+            return _dbService.GetOrdered();
+        }
 
         [HttpGet("{id:length(24)}", Name = "GetReserva")]
         public ActionResult<Reserva> Get(string id)
@@ -52,7 +58,7 @@ namespace api.Controllers
                 return NotFound();
             }
 
-            _dbService.Remove(reserva.Id);
+            _dbService.RemoveAndUpdateCounter(reserva.Id);
             return NoContent();
         }
     }

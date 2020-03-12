@@ -17,7 +17,11 @@ namespace db.Services
         public Agendamento GetByDate(string data)
         {
             data = data.Replace("-", "/");
-            return _collection.Find(x => x.Data == data).FirstOrDefault();
+            var agendamento = _collection.Find(x => x.Data == data).FirstOrDefault();
+
+            agendamento.Horarios = agendamento.Horarios.OrderByDescending(x => x.Id).ToList();
+
+            return agendamento;
         }
     }
 }
